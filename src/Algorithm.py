@@ -11,7 +11,7 @@ class Base_Algorithm(object):
 
     def serilize_model(self):
         file_name=config.model_file_name
-        joblib.dump(self.algo,file_name,compress=1)
+        joblib.dump(self.algo,file_name,compress=True)
 
     def de_serilize_model(self):
         self.algo = joblib.load(config.model_file_name)

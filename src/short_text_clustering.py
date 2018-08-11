@@ -18,7 +18,6 @@ def main():
     model.feature_transform(data_in)
 
     if config.mode =='Training':
-
         if config.algo_name =='KMeans':
             algo_instance = KMeans.KMeansClustering(config.algo_name)
             print('start training model')
@@ -28,11 +27,15 @@ def main():
             algo_instance.output_cluster_info(data_in,model,feed_id)
 
     else:
+        print('start inference')
         if config.algo_name =='KMeans':
             algo_instance = KMeans.KMeansClustering(config.algo_name)
             algo_instance.de_serilize_model()
+            print('finish desirialization')
+
             algo_instance.get_centroids()
             algo_instance.output_cluster_info(data_in, model, feed_id)
+            print('finish all')
 
 
 if __name__ == '__main__':
