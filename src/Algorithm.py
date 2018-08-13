@@ -16,6 +16,11 @@ class Base_Algorithm(object):
     def de_serilize_model(self):
         self.algo = joblib.load(config.model_file_name)
 
+    def predict(self,sample):
+        return self.algo.predict(sample)
+
+
+
 
 
 

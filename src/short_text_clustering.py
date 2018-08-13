@@ -32,9 +32,10 @@ def main():
             algo_instance = KMeans.KMeansClustering(config.algo_name)
             algo_instance.de_serilize_model()
             print('finish desirialization')
-
-            algo_instance.get_centroids()
-            algo_instance.output_cluster_info(data_in, model, feed_id)
+            labels=algo_instance.predict(model.feature)
+            print(labels)
+            #algo_instance.get_centroids()
+            #algo_instance.output_cluster_info(data_in, model, feed_id)
             print('finish all')
 
 
