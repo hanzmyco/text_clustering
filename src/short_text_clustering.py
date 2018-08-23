@@ -1,5 +1,5 @@
 import config
-import text_processing.src.read_json as read_json
+import read_json
 import Vectorizer
 import KMeans
 import Algorithm
