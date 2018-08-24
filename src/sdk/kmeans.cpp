@@ -6,7 +6,7 @@ int main()
 {
 	cout << "Hello, World!";
 
-	Mat img = imread("../image.jpg");
+	Mat img = imread("data/image.jpg");
 	namedWindow("image", WINDOW_NORMAL);
 	imshow("image", img);
 	waitKey(0);
