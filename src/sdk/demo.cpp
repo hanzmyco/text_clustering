@@ -86,8 +86,11 @@ int main(int argc, char** argv) {
   Vectorizer feature = Vectorizer(test_input);
   vector<vector<string>> output = feature.Keyword_Extractor(5);
   cout<<output<<endl;
-  feature.tokenizer();
-  feature.build_dictionary(output);
+  //feature.tokenizer();
+  std::map<string, int> dic=feature.build_dictionary(output);
+
+
+
 
 
 

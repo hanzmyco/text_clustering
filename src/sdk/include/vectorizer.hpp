@@ -59,7 +59,7 @@ public:
 		int index=0;
 		for (auto it1 = begin(keywords);it1!=end(keywords);++it1){
 			for (auto it2 = begin(*it1);it2!=end(*it1);++it2){
-				cout<<*it2<<endl;
+				//cout<<*it2<<endl;
 				std::pair<std::map<string,int>::iterator,bool> ret;
 			  ret=dictionary.insert(std::pair<string,int>(*it2,index));
 				if (ret.second==true){
@@ -72,6 +72,23 @@ public:
 			cout<<it.first << " " << it.second <<endl;
 		}
 		return dictionary;
+	}
+
+	std::vector<vector<int>> vector_maker(){
+		vector<vector<string>> output = this.Keyword_Extractor(5);
+	  cout<<output<<endl;
+	  //feature.tokenizer();
+	  /* after this step, we have a dicitonary to count term frequency*/
+	  std::map<string, int> dic=this.build_dictionary(output);
+		vector<vector<int>> vector_output;
+
+		for(auto it1 = begin(output);it1!=end(output);++it1){
+			vector<int> inner_vector;
+			for(auto it2 = begin(*it1);it2!=end(*ite1);++it2){
+				inner_vector.push_back(dictionary.find(*it2))
+			}
+		}
+		return vector_output;
 	}
 
 
