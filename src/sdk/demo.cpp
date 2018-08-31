@@ -79,15 +79,20 @@ int main(int argc, char** argv) {
 
   string s1 = "张亮考上了北京大学，我考上了中专，小李去了当服务员。我们都有光明的前途。";
   string s2 = "小明到底爱不爱小刚？ 我猜他是爱的。";
+  string s3 = "我考上了中专，小李子去当了服务员，张亮考上了北京大学，我们都有光明的前途。";
   vector<string> test_input;
   test_input.push_back(s1);
   test_input.push_back(s2);
+  test_input.push_back(s3);
 
   Vectorizer feature = Vectorizer(test_input);
-  vector<vector<string>> output = feature.Keyword_Extractor(5);
-  cout<<output<<endl;
+  //vector<vector<string>> output = feature.Keyword_Extractor(5);
+  //cout<<output<<endl;
   //feature.tokenizer();
-  std::map<string, int> dic=feature.build_dictionary(output);
+  //std::map<string, int> dic=feature.build_dictionary(output);
+  vector<vector<int>> matrix = feature.build_matrix(5);
+  cout<<matrix<<endl;
+  cout<<matrix[0]<<endl;
 
 
 
