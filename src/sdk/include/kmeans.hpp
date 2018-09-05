@@ -30,15 +30,26 @@ public:
         criteria,attempts, KMEANS_PP_CENTERS, centers);
 
     this->result_labels=labels;
-    cout<<centers<<endl;
-
+    this->centers = centers;
   }
-  Mat result_labels;
+void printLabels(){
+  cout<<this->result_labels;
+}
+void printCenters(){
+  cout<<this->centers;
+}
+void saveLabels(string file_name){
+  FileStorage fs(file_name,cv::FileStorage::WRITE);
+  fs<<"result_labels" <<this->result_labels;
+}
+void saveCenters(string file_name){
+  FileStorage fs(file_name,cv::FileStorage::WRITE);
+  fs<<"centers" << this->centers;
+}
 
 private:
   vector<vector<int>> feature;
   Mat *points;
-
+  Mat result_labels;
   Mat 	centers;
-
 };

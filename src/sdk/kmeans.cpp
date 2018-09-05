@@ -15,9 +15,9 @@ int main(int argc, char** argv) {
         STOP_WORD_PATH);
       */
 
-trainingPipeline tp = trainingPipeline("../input.txt",5);
+trainingPipeline tp = trainingPipeline("../small.txt",5);
 
-/*
+  /*
   string s1 = "张亮考上了北京大学，我考上了中专，小李去了当服务员。我们都有光明的前途。";
   string s2 = "小明到底爱不爱小刚？ 我猜他是爱的。";
   string s3 = "我考上了中专，小李子去当了服务员，张亮考上了北京大学，我们都有光明的前途。";
@@ -30,11 +30,15 @@ trainingPipeline tp = trainingPipeline("../input.txt",5);
   for (int i =0;i<100;i++){
     test_input.push_back(s4);
   }
-*/
 
-/*
+
+
   Vectorizer feature = Vectorizer(test_input);
+  vector<vector<string>> output = feature.tokenizer();
+  cout<<output;
 
+
+  
   vector<vector<int>> matrix = feature.build_matrix(5);
   cout<<matrix<<endl;
   cout<<matrix[0]<<endl;
@@ -50,6 +54,6 @@ trainingPipeline tp = trainingPipeline("../input.txt",5);
          attempts, KMEANS_PP_CENTERS);
 
   cout<<wrapper.result_labels<<endl;
-*/
+  */
   return EXIT_SUCCESS;
 }

@@ -49,6 +49,10 @@ public:
 		for (auto it =begin(this->text);it !=end(this->text);++it){
 			vector<string> words;
 			jieba->Cut(*it, words, true);
+			vector<string> filtered_words;
+			for(auto word =begin(words);word != end(words);++word){
+
+			}
 			output.push_back(words);
 			cout << limonp::Join(words.begin(), words.end(), "/") << endl;
 		}
@@ -104,6 +108,15 @@ public:
 	cppjieba::Jieba * jieba;
 
 private:
+	std::set<string> load_stopwords(string stop_word_file){
+		string line;
+		std::set<string> stop_words_list;
+		ifstream input_file(stop_word_file);
+    while(std::getline(input_file,line)){
+			cout<<line;
+      stop_words_list.insert(line);
+    }
+	}
 	vector<string> readfile(string in_path){
 		vector<string> a;
 		return a;

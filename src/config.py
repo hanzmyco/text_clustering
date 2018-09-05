@@ -13,5 +13,5 @@ minibatch=None
 verbose=False
 data_lines=None
 model_file_name="../model/"+str(cluster_number)+"_clusters_"+str(max_iter)+"_iters.pkl"
-mode = 'Inference'
+mode = 'Training'
 vectorizer_file_name='../model/'+str(cluster_number)+"_clusters_"+str(max_iter)+"_iters_vectorizer.pkl"

@@ -14,8 +14,10 @@ public:
     cout<<"begin vetorizing"<<endl;
     Vectorizer feature = Vectorizer(this->input_strings);
     cout<<"finish vetorizing"<<endl;
-    this->matrix = feature.build_matrix(topk);
-    actual_training();
+    vector<vector<string>> text_tokenized = feature.tokenizer();
+    cout<<text_tokenized;
+    //this->matrix = feature.build_matrix(topk);
+    //actual_training();
   }
 private:
   vector<string> input_strings;
@@ -41,12 +43,17 @@ private:
 
     KMeansWrapper wrapper = KMeansWrapper(this->matrix);
     cout<<"still here"<<endl;
-    int clusterCount = 5;
-    int attempts =1;
+    int clusterCount = 3;
+    int attempts =3;
     wrapper.kmeans_wrapper(clusterCount,
         TermCriteria( TermCriteria::EPS+TermCriteria::COUNT, 10, 1.0),
            attempts, KMEANS_PP_CENTERS);
-    cout<<wrapper.result_labels<<endl;
+
+    wrapper.printCenters();
+    wrapper.printLabels();
+    wrapper.saveLabels("../label.yml");
+    wrapper.saveCenters("../center.yml");
+
   }
 
 };

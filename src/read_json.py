@@ -70,11 +70,32 @@ def read_json(path_in,data_out,stop_word_path,vid_out=None,set_limit=None,file_o
                 seg_list = jieba.cut(ite, cut_all=False)
                 segs = [str(word) for word in list(seg_list) if word not in stoplist]
                 data_out.append(' '.join(segs))
-
                 if set_limit:
                     limit+=1
+
+    with open(file_out,'w',encoding='utf-8') as f_out:
+        for ite in data_out:
+            f_out.write(ite)
+            f_out.write('\n')
+
+def test_alignment_py(file_name,file_out,stop_word_path):
+    stoplist = set([line.strip() for line in open(stop_word_path, encoding='utf-8')])
+    #stoplist=set()
+    with open(file_out,'w',encoding='utf-8') as f:
+        for line in  open(file_name,encoding='utf-8'):
+            ite = line.strip()
+            seg_list = jieba.cut(ite, cut_all=False)
+            segs = [str(word) for word in list(seg_list) if word not in stoplist]
+            f.write(' '.join(segs))
+            f.write('\n')
+
+
+
 def main():
-    read_json4cpp('../data/subtitle/',None,'../data/cpp/input.txt')
+    #read_json4cpp('../data/subtitle/',None,'../data/cpp/input.txt')
+    #data_out=[]
+    #read_json('../data/subtitle_debug/',data_out,'stop_words.utf8',None,None,'../data/cpp/input_python_debug.txt')
+    test_alignment_py('../data/cpp/small.txt','../data/cpp/python_alignment.txt','stop_words.utf8')
 
 if __name__ == '__main__':
     main()
