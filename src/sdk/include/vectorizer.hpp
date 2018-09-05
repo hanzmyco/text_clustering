@@ -26,12 +26,21 @@ public:
 
 		//vector<vector<cppjieba::KeywordExtractor::Word>> output;
 		vector<vector<string>> output;
+		int i=0;
 
 		for (auto it =begin(this->text);it !=end(this->text);++it){
 			vector<string> keywords;
 			jieba->extractor.Extract(*it, keywords, topk);
 			output.push_back(keywords);
+			//cout<<keywords.size()<<endl;
+			//cout<<i<<endl;
+			i++;
 		}
+		cout<<"finish extracting"<<endl;
+		cout<<(this->text)[2]<<endl;
+		cout<<output[2]<<endl;
+		cout<<(this->text)[3]<<endl;
+		cout<<output[3]<<endl;
 		return output;
 	}
 
@@ -48,53 +57,42 @@ public:
 
 	vector<vector<int>> build_matrix(const size_t topk){
 		vector<vector<int>>matrix;
-	  vector<vector<string>> keywords=this->Keyword_Extractor(topk);
+		vector<vector<string>> keywords=this->Keyword_Extractor(topk);
 		std::map<string, int> dictionary = this->build_dictionary(keywords);
-		cout<<keywords<<endl;
-
 
 		for (auto it1 = begin(keywords);it1!=end(keywords);++it1)
 		{
+
 			vector<int>row (dictionary.size(),0);
 			for (auto it2 = begin(*it1);it2!=end(*it1);++it2)
 			{
-				cout<<*it2<<" ";
 				std::map<string,int>::iterator iter;
 				iter=dictionary.find(*it2);
 				if (iter != dictionary.end()){
 					row[dictionary[*it2]]=1;
-				}	
+				}
 			}
 
 			matrix.push_back(row);
 		}
-
 		return matrix;
-
 	}
 
 
 
 	std::map<string, int> build_dictionary(vector<vector<string>> keywords){
 		std::map<string, int> dictionary;
-		cout<<"begin to print dictionary"<<endl;
+		cout<<"begin to build dictionary"<<endl;
 		int index=0;
 		for (auto it1 = begin(keywords);it1!=end(keywords);++it1){
 			for (auto it2 = begin(*it1);it2!=end(*it1);++it2){
-				cout<<*it2<<endl;
 				std::pair<std::map<string,int>::iterator,bool> ret;
 			  ret=dictionary.insert(std::pair<string,int>(*it2,index));
 				if (ret.second==true){
 					index++;
 				}
 			}
-
 		}
-		/*
-		for (auto it : dictionary){
-			cout<<it.first << " " << it.second <<endl;
-		}
-		*/
 		return dictionary;
 	}
 
