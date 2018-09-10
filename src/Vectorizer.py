@@ -4,14 +4,21 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction import FeatureHasher
 import config
 import BaseModel
 
 
 class CounterVector(BaseModel.BaseModel):
     def __init__(self,model):
-        BaseModel.BaseMode.__init__(self,model)
+        BaseModel.BaseModel.__init__(self,model)
         self.vectorizer = CountVectorizer()
+
+class FeatureHasherVector(BaseModel.BaseModel):
+    def __init__(self,model,num_features):
+        BaseModel.BaseModel.__init__(self, model)
+        self.vectorizer = FeatureHasher(num_features)
+
 
 
 class TfIdfVector(BaseModel.BaseModel):
@@ -33,6 +40,3 @@ class TfIdfVector(BaseModel.BaseModel):
             self.vectorizer = TfidfVectorizer(max_df=0.5, max_features=config.n_features,
                                          min_df=1, stop_words='english',
                                          use_idf=True)
-
-
-

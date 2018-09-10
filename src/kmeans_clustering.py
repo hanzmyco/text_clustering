@@ -80,11 +80,12 @@ if opts.use_hashing:
                                        #stop_words='english',
                                        alternate_sign=False, norm='l2',
                                        binary=False)
-else:
+elif config.model_name = 'TfIdf':
     vectorizer = TfidfVectorizer(max_df=0.5, max_features=opts.n_features,
                                  min_df=1, stop_words='english',
                                  use_idf=True)
-
+elif config.model_name = 'Counter':
+    vectorizer = CountVectorizer()
 
 
     #vectorizer = CountVectorizer(tokenizer=lambda text: text.split())
@@ -183,6 +184,3 @@ if not opts.use_hashing:
                 print(data_subtitle[index].strip(' ')+'\n')
             print()
             f.write('\n')
-
-
-

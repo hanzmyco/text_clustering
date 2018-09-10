@@ -1,5 +1,5 @@
 #include "cppjieba/Jieba.hpp"
-
+#include <fstream>
 using namespace std;
 
 const char* const DICT_PATH = "../dict/jieba.dict.utf8";
@@ -15,53 +15,68 @@ public:
 	Vectorizer(string in_path){
 		this->text = readfile(in_path);
 		init_jieba();
+		ofstream file1("../origin_text.txt",ofstream::out);
+		ofstream file2("../tokenized_text.txt",ofstream::out);
+		file1 << this->text;
+		this->tokenized_text=tokenizer();
+		file2 << this->tokenized_text;
 	}
 	// directly pass in string data
 	Vectorizer(vector<string> text){
 		this->text=text;
 		init_jieba();
-	}
+
+		ofstream file1("../origin_text.txt",ofstream::out);
+		ofstream file2("../tokenized_text_no_stopwords.txt",ofstream::out);
+		cout<<"here0"<<endl;
+
+		this->tokenized_text=tokenizer();
+		cout<<"flagflagflag"<<endl;
+		file1 << this->text;
+		file2 << this->tokenized_text;
+		}
 
 	vector<vector<string>> Keyword_Extractor(const size_t topk){
 
-		//vector<vector<cppjieba::KeywordExtractor::Word>> output;
 		vector<vector<string>> output;
-		int i=0;
 
-		for (auto it =begin(this->text);it !=end(this->text);++it){
+		for (auto it =begin(this->tokenized_text);it !=end(this->tokenized_text);++it){
 			vector<string> keywords;
 			jieba->extractor.Extract(*it, keywords, topk);
 			output.push_back(keywords);
-			//cout<<keywords.size()<<endl;
-			//cout<<i<<endl;
-			i++;
 		}
-		cout<<"finish extracting"<<endl;
-		cout<<(this->text)[2]<<endl;
-		cout<<output[2]<<endl;
-		cout<<(this->text)[3]<<endl;
-		cout<<output[3]<<endl;
 		return output;
 	}
 
-	vector<vector<string>> tokenizer(){
-		vector<vector<string>>output;
+	vector<string> tokenizer(){
+		vector<string>output;
+		std::set<string> stopwords = load_stopwords(STOP_WORD_PATH);
+
 		for (auto it =begin(this->text);it !=end(this->text);++it){
 			vector<string> words;
 			jieba->Cut(*it, words, true);
-			vector<string> filtered_words;
+			string filtered_words="";
 			for(auto word =begin(words);word != end(words);++word){
-
+				if (stopwords.find(*word) ==stopwords.end())
+				{
+					filtered_words+=" "+*word;
+				}
 			}
-			output.push_back(words);
-			cout << limonp::Join(words.begin(), words.end(), "/") << endl;
+			output.push_back(filtered_words);
 		}
+		cout<<"end once"<<endl;
+
 		return output;
 	}
 
 	vector<vector<int>> build_matrix(const size_t topk){
 		vector<vector<int>>matrix;
 		vector<vector<string>> keywords=this->Keyword_Extractor(topk);
+
+		ofstream file0("../extracted_key_words.txt",ofstream::out);
+		file0<<keywords;
+
+
 		std::map<string, int> dictionary = this->build_dictionary(keywords);
 
 		for (auto it1 = begin(keywords);it1!=end(keywords);++it1)
@@ -113,9 +128,14 @@ private:
 		std::set<string> stop_words_list;
 		ifstream input_file(stop_word_file);
     while(std::getline(input_file,line)){
-			cout<<line;
-      stop_words_list.insert(line);
+			if (line[line.length()-1]=='\r' ||line[line.length()-1]=='\n'){
+        stop_words_list.insert(line.erase(line.length()-1));
+      }
+      else{
+        stop_words_list.insert(line);
+      }
     }
+		return stop_words_list;
 	}
 	vector<string> readfile(string in_path){
 		vector<string> a;

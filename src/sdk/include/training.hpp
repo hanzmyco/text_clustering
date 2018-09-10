@@ -10,13 +10,13 @@ class trainingPipeline{
 public:
   trainingPipeline(string root_path,const size_t topk){
     read_from_path(root_path);
-    //cout<<this->input_strings<<endl;
     cout<<"begin vetorizing"<<endl;
     Vectorizer feature = Vectorizer(this->input_strings);
+    cout<<"flag0"<<endl;
     cout<<"finish vetorizing"<<endl;
-    vector<vector<string>> text_tokenized = feature.tokenizer();
-    cout<<text_tokenized;
-    //this->matrix = feature.build_matrix(topk);
+    //vector<vector<string>> text_tokenized = feature.tokenizer();
+    //cout<<text_tokenized;
+    this->matrix = feature.build_matrix(topk);
     //actual_training();
   }
 private:
@@ -27,7 +27,12 @@ private:
     string line;
     ifstream input_file(root_path);
     while(std::getline(input_file,line)){
-      lines.push_back(line);
+      if (line[line.length()-1]=='\r' ||line[line.length()-1]=='\n'){
+        lines.push_back(line.erase(line.length()-1));
+      }
+      else{
+        lines.push_back(line);
+      }
     }
 
     this->input_strings = lines ;

@@ -69,33 +69,48 @@ def read_json(path_in,data_out,stop_word_path,vid_out=None,set_limit=None,file_o
 
                 seg_list = jieba.cut(ite, cut_all=False)
                 segs = [str(word) for word in list(seg_list) if word not in stoplist]
-                data_out.append(' '.join(segs))
+                put_in = ' '.join(segs)
+                if put_in .strip()=='' or put_in .strip()==None:
+                    continue
+                data_out.append(put_in)
+
                 if set_limit:
                     limit+=1
 
-    with open(file_out,'w',encoding='utf-8') as f_out:
-        for ite in data_out:
-            f_out.write(ite)
-            f_out.write('\n')
+    if file_out !=None:
+        with open(file_out,'w',encoding='utf-8') as f_out:
+            for ite in data_out:
+                f_out.write(ite)
+                f_out.write('\n')
 
-def test_alignment_py(file_name,file_out,stop_word_path):
-    stoplist = set([line.strip() for line in open(stop_word_path, encoding='utf-8')])
-    #stoplist=set()
+def test_alignment_py(file_name,file_out,stop_word_path,stop_word =True,extraction=False,topk=None,data_out=None):
+    stoplist = set()
+
+    if stop_word:
+        stoplist = set([line.strip() for line in open(stop_word_path, encoding='utf-8')])
+
     with open(file_out,'w',encoding='utf-8') as f:
         for line in  open(file_name,encoding='utf-8'):
             ite = line.strip()
             seg_list = jieba.cut(ite, cut_all=False)
             segs = [str(word) for word in list(seg_list) if word not in stoplist]
-            f.write(' '.join(segs))
-            f.write('\n')
+            item = ' '.join(segs)
 
+            if extraction:
+                item= jieba.analyse.extract_tags(item,topk)
+                item= ' '.join(item)
+            if item.strip() !='' and  item.strip() !=None:
+                f.write(item)
+                f.write('\n')
+                if data_out!=None:
+                    data_out.append(item)
 
 
 def main():
     #read_json4cpp('../data/subtitle/',None,'../data/cpp/input.txt')
-    #data_out=[]
+    data_out=[]
     #read_json('../data/subtitle_debug/',data_out,'stop_words.utf8',None,None,'../data/cpp/input_python_debug.txt')
-    test_alignment_py('../data/cpp/small.txt','../data/cpp/python_alignment.txt','stop_words.utf8')
+    #test_alignment_py('../data/cpp/small.txt','../data/cpp/python_alignment_tokenizer_no_stopwords.txt','stop_words.utf8',False,False)
 
 if __name__ == '__main__':
     main()

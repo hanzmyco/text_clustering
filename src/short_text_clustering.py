@@ -10,7 +10,9 @@ def main():
     data_in=[]
     feed_id=[]
     print('start reading data')
-    read_json.read_json(config.path_in,data_in,config.stop_word_path,feed_id,config.data_lines)
+    #read_json.read_json(config.path_in,data_in,config.stop_word_path,feed_id,config.data_lines)
+
+    read_json.test_alignment_py('../data/cpp/small.txt','../data/cpp/python_alignment_extraction1.txt','stop_words.utf8',True,True,5,data_in)
     print('finish reading data')
 
     if config.mode =='Training':
@@ -19,9 +21,15 @@ def main():
         elif config.model_name == 'TfIdf':
             model = Vectorizer.TfIdfVector(config.model_name)
             print('finish initilizing model')
+        elif config.model_name =='FeatureHasher':
+            model = Vectorizer.FeatureHasherVector(config.model_name,config.n_features)
+
 
         model.feature_transform(data_in)
-        model.serilize_model()
+        #print(model.vectorizer.vocabulary_)
+        #print(model.vectorizer.get_feature_names())
+        #print(model.feature)
+        #model.serilize_model()
 
         if config.algo_name =='KMeans':
             algo_instance = KMeans.KMeansClustering(config.algo_name)
@@ -29,7 +37,7 @@ def main():
             algo_instance.fit(model.feature)
             algo_instance.serilize_model()
             algo_instance.get_centroids()
-            algo_instance.output_cluster_info(data_in,model,feed_id)
+            #algo_instance.output_cluster_info(data_in,model,feed_id)
 
     else:
         print('loading vectorizer')
