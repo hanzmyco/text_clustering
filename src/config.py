@@ -1,6 +1,7 @@
 use_hashing = False
 #model_name="TfIdf"
 model_name = 'Counter'
+model_name = 'FeatureHasher'
 path_in="../data/subtitle_debug/"
 stop_word_path="stop_words.utf8"
 algo_name='KMeans'
