@@ -1,6 +1,7 @@
 from sklearn.externals import joblib
 import config
 import protobuf_test_pb2 as protobuf_test
+import labels_pb2 as labels_proto
 
 class Base_Algorithm(object):
     def __init__(self,algo_name=None):
@@ -23,6 +24,16 @@ class Base_Algorithm(object):
         f = open(config.model_file_name, 'wb')
         f.write(pb_centers.SerializeToString())
         f.close()
+
+        pb_labels = labels_proto.labels()
+        for i in range(len(labels)):
+            pb_labels.points.append(labels[i])
+        print(pb_labels)
+        f = open(config.label_file_name,'wb')
+        f.write(pb_labels.SerializeToString())
+        f.close()
+
+
 
 
 

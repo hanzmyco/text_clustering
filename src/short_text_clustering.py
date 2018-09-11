@@ -4,6 +4,7 @@ import Vectorizer
 import KMeans
 import Algorithm
 import BaseModel
+import read_liulanqi_data
 
 def main():
 
@@ -12,8 +13,13 @@ def main():
     print('start reading data')
     #read_json.read_json(config.path_in,data_in,config.stop_word_path,feed_id,config.data_lines)
 
-    read_json.test_alignment_py('../data/cpp/small.txt','../data/cpp/python_alignment_extraction1.txt','stop_words.utf8',True,True,5,data_in)
-    print('finish reading data')
+    #read_json.test_alignment_py('../data/cpp/small.txt','../data/cpp/python_alignment_extraction1.txt','stop_words.utf8',True,True,5,data_in)
+    #print('finish reading data')
+
+    #term_id = []
+    id_url = []
+    read_liulanqi_data.read_data(config.path_in, data_in, id_url)
+
 
     if config.mode =='Training':
         if config.model_name == 'Counter':
@@ -35,9 +41,21 @@ def main():
             algo_instance = KMeans.KMeansClustering(config.algo_name)
             print('start training model')
             algo_instance.fit(model.feature)
-            algo_instance.serilize_model()
-            algo_instance.get_centroids()
+            #algo_instance.serilize_model()
+            #algo_instance.get_centroids()
             #algo_instance.output_cluster_info(data_in,model,feed_id)
+            with open(config.label_file_name,'w',encoding='utf-8') as f_out1:
+                labels_lielanqi = algo_instance.algo.labels_.tolist()
+                for ite in labels_lielanqi:
+                    f_out1.write(ite)
+                    f_out1.write('\n')
+            with open(config.center_file_name,'w',encoding='utf-8') as center_out:
+                centers = algo_instance.algo.cluster_centers_.tolist()
+                for ite in centers:
+                    center_out.write(ite)
+                    center_out.write('\n')
+
+
 
     else:
         print('loading vectorizer')

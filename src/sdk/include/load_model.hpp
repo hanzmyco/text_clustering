@@ -3,13 +3,27 @@
 #include <iostream>
 #include <fstream>
 #include "kmeans.hpp"
+#include "labels.pb.h"
 using namespace cv;
 using namespace std;
+using namespace labels;
 
 class modelLoader{
 public:
   modelLoader(string data_path){
-    read_from_path(data_path);
+    GOOGLE_PROTOBUF_VERSION;
+    labels::labels label_vector;
+    fstream input(data_path,ios::in|ios::binary);
+    if(!input){
+      cout<< data_path<<": not found"<<endl;
+    }
+    else if (!label_vector.ParseFromIstream(&input)){
+      cerr << "failed to parse address book. " << endl;
+      return -1;
+    }
+    cout<<label_vector.points();
+    return label_vector;
+
   }
 
   void read_from_path(string root_path){

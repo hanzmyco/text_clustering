@@ -12,7 +12,7 @@ import BaseModel
 class CounterVector(BaseModel.BaseModel):
     def __init__(self,model):
         BaseModel.BaseModel.__init__(self,model)
-        self.vectorizer = CountVectorizer()
+        self.vectorizer = CountVectorizer(lowercase=False)
 
 class FeatureHasherVector(BaseModel.BaseModel):
     def __init__(self,model,num_features):

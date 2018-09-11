@@ -3,6 +3,7 @@
 #include <iostream>
 //#include "kmeans.hpp"
 #include "training.hpp"
+#include "load_model.hpp"
 using namespace cv;
 using namespace std;
 
@@ -15,7 +16,8 @@ int main(int argc, char** argv) {
         STOP_WORD_PATH);
       */
 
-trainingPipeline tp = trainingPipeline("../small.txt",5);
+  modelLoader ml = modelLoader("../labels");
+//trainingPipeline tp = trainingPipeline("../input_python_debug",5);
 
   /*
   string s1 = "张亮考上了北京大学，我考上了中专，小李去了当服务员。我们都有光明的前途。";
@@ -38,7 +40,7 @@ trainingPipeline tp = trainingPipeline("../small.txt",5);
   cout<<output;
 
 
-  
+
   vector<vector<int>> matrix = feature.build_matrix(5);
   cout<<matrix<<endl;
   cout<<matrix[0]<<endl;
