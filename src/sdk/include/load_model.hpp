@@ -2,30 +2,30 @@
 #include "vectorizer.hpp"
 #include <iostream>
 #include <fstream>
-#include "kmeans.hpp"
-#include "labels.pb.h"
-using namespace cv;
+//#include "kmeans.hpp"
+
+//using namespace cv;
 using namespace std;
-using namespace labels;
+
 
 class modelLoader{
 public:
-  modelLoader(string data_path){
-    GOOGLE_PROTOBUF_VERSION;
-    labels::labels label_vector;
-    fstream input(data_path,ios::in|ios::binary);
-    if(!input){
-      cout<< data_path<<": not found"<<endl;
+  modelLoader(string label_path,string center_path){
+    ifstream label_file(label_path,ios::in|ios::binary|ios::ate);
+    char * memblock;
+    streampos size;
+    if(label_file.is_open()){
+      size = label_file.tellg();
+      memblock = new char[size];
+      label_file.seekg(0,ios::beg);
+      label_file.read(memblock,size);
+      label_file.close();
     }
-    else if (!label_vector.ParseFromIstream(&input)){
-      cerr << "failed to parse address book. " << endl;
-      return -1;
-    }
-    cout<<label_vector.points();
-    return label_vector;
+    cout<<memblock[0];
+    delete[]memblock;
 
   }
-
+  /*
   void read_from_path(string root_path){
     vector<string> lines;
     string line;
@@ -40,5 +40,5 @@ public:
     }
 
     this->input_strings = lines ;
-  }
+  }*/
 };

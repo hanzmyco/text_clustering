@@ -3,7 +3,31 @@ import jieba
 import jieba.analyse
 import operator
 
-def read_data(path_in,term_id,id_url,word_output_file=None):
+
+def read_data(path_in,term_id,id_url,limits=None):
+    limit=0
+    for line in open(path_in,encoding='utf-8'):
+        line=line.strip().split('\t')
+        #print(line)
+        terms = jieba.analyse.extract_tags(line[1],topK=5)
+        terms = ' '.join(terms)
+        #print(line[1])
+        #print(terms)
+
+        term_id.append(terms)
+        id_url.append((line[0].strip(),line[2].strip(),line[3].strip()))
+        if limits:
+            limit +=1
+            if limit ==limits:
+                break
+
+
+    #print(term_id)
+    #print(id_url)
+
+
+
+def read_data_count_terms(path_in,term_id,id_url,word_output_file=None):
     dic={}
 
     for line in open(path_in,encoding='utf-8'):

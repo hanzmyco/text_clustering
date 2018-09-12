@@ -1,10 +1,8 @@
 #include "cppjieba/Jieba.hpp"
-//#include "cppjieba/vectorizer.hpp"
 #include <iostream>
-//#include "kmeans.hpp"
-#include "training.hpp"
+//#include "training.hpp"
 #include "load_model.hpp"
-using namespace cv;
+//using namespace cv;
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -16,7 +14,7 @@ int main(int argc, char** argv) {
         STOP_WORD_PATH);
       */
 
-  modelLoader ml = modelLoader("../labels");
+  modelLoader ml = modelLoader("../model/5_clusters_10_iters_labels_video_90w"," ");
 //trainingPipeline tp = trainingPipeline("../input_python_debug",5);
 
   /*
