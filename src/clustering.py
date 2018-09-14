@@ -31,6 +31,7 @@ def main():
             model = Vectorizer.FeatureHasherVector(config.model_name,config.n_features)
 
         model.feature_transform(data_in)
+        model.serilize_model()
 
         if config.algo_name =='KMeans':
             algo_instance = KMeans.KMeansClustering(config.algo_name)

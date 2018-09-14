@@ -19,3 +19,4 @@ center_file_name = "../model/"+str(cluster_number)+"_clusters_"+str(max_iter)+"_
 mode = 'Training'
 #vectorizer_file_name='../model/'+str(cluster_number)+"_clusters_"+str(max_iter)+"_iters_vectorizer.pkl"
 serilization_mode = 'default'
+feature_dic_path ="../model/"+str(cluster_number)+"_clusters_"+str(max_iter)+"_iters_feature_dict_video_90w"

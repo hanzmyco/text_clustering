@@ -25,15 +25,7 @@ public:
 	Vectorizer(vector<string> text){
 		this->text=text;
 		init_jieba();
-
-		ofstream file1("../origin_text.txt",ofstream::out);
-		ofstream file2("../tokenized_text_no_stopwords.txt",ofstream::out);
-		cout<<"here0"<<endl;
-
 		this->tokenized_text=tokenizer();
-		cout<<"flagflagflag"<<endl;
-		file1 << this->text;
-		file2 << this->tokenized_text;
 		}
 
 	vector<vector<string>> Keyword_Extractor(const size_t topk){
@@ -64,31 +56,29 @@ public:
 			}
 			output.push_back(filtered_words);
 		}
-		cout<<"end once"<<endl;
-
 		return output;
 	}
 
-	vector<vector<int>> build_matrix(const size_t topk){
-		vector<vector<int>>matrix;
+	vector<vector<float>> build_matrix(const size_t topk, std::map<string,int>dictionary){
+		vector<vector<float>>matrix;
 		vector<vector<string>> keywords=this->Keyword_Extractor(topk);
 
-		ofstream file0("../extracted_key_words.txt",ofstream::out);
-		file0<<keywords;
+		//ofstream file0("../extracted_key_words.txt",ofstream::out);
+		//file0<<keywords;
 
 
-		std::map<string, int> dictionary = this->build_dictionary(keywords);
+		//std::map<string, int> dictionary = this->build_dictionary(keywords);
 
 		for (auto it1 = begin(keywords);it1!=end(keywords);++it1)
 		{
 
-			vector<int>row (dictionary.size(),0);
+			vector<float>row (dictionary.size(),0);
 			for (auto it2 = begin(*it1);it2!=end(*it1);++it2)
 			{
 				std::map<string,int>::iterator iter;
 				iter=dictionary.find(*it2);
 				if (iter != dictionary.end()){
-					row[dictionary[*it2]]=1;
+					row[dictionary[*it2]]=1.0;
 				}
 			}
 

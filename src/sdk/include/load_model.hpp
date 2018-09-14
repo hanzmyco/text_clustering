@@ -1,5 +1,3 @@
-#include "cppjieba/Jieba.hpp"
-#include "vectorizer.hpp"
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -7,16 +5,26 @@ using namespace std;
 
 class modelLoader{
 public:
-  modelLoader(string label_path,string center_path){
+  modelLoader(string label_path,string center_path,int linesToRead,int cols,string dictionary_path){
     this->labels = get_labels(label_path);
-    cout<< this->labels;
-    cout <<endl<<endl;
-    int linesToRead = 10;
-    int cols =235;
     this->centers = get_centers(center_path,linesToRead,cols);
-    cout<<this->centers;
+    this->dictionary=get_dictionary(dictionary_path);
   }
+std::map<string,int>get_dictionary(string dictionary_path){
+  ifstream input_file(dictionary_path);
+  std::map<string,int> dictionary;
+  string line;
+  while(std::getline(input_file,line)){
 
+    string delimiter =":";
+    int stop_index = line.find(delimiter);
+    string key = line.substr(0,stop_index);
+    string value = line.substr(stop_index+1,line.length());
+    dictionary.insert(std::pair<string,int>(key,std::stoi(value)));
+  }
+  input_file.close();
+  return dictionary;
+}
 vector<vector<float>> get_centers(string center_path,int linesToRead,int cols){
   std::ifstream file(center_path, std::ios::in | std::ios::binary);
   vector<vector<float>> dstData;
@@ -35,6 +43,7 @@ vector<vector<float>> get_centers(string center_path,int linesToRead,int cols){
   file.close();
   return dstData;
 }
+
 
 
   vector<unsigned int> get_labels(string label_path){
@@ -67,7 +76,9 @@ vector<vector<float>> get_centers(string center_path,int linesToRead,int cols){
     delete[]memblock;
     return output;
   }
+  vector<vector<float>>centers;
+  std::map<string,int> dictionary;
 private:
   vector<unsigned int> labels;
-  vector<vector<float>>centers;
+
 };

@@ -18,7 +18,16 @@ class BaseModel(object):
             self.feature = lsa.fit_transform(self.feature)
 
     def serilize_model(self):
-        joblib.dump(self.vectorizer,config.vectorizer_file_name,compress=True)
+        #joblib.dump(self.vectorizer,config.vectorizer_file_name,compress=True)
+        #print('stop here')
+        with open(config.feature_dic_path,'w',encoding='utf-8') as f:
+            for key,value in self.vectorizer.vocabulary_.items():
+                f.write(key+':')
+                f.write(str(value))
+                f.write('\n')
+
+
+
 
     def de_serilize_model(self):
         self.vectorizer = joblib.load(config.vectorizer_file_name)
