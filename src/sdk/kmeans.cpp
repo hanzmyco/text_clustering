@@ -1,26 +1,20 @@
 #include "cppjieba/Jieba.hpp"
 #include <iostream>
 #include "inference.hpp"
-//#include "load_model.hpp"
-//#include "vectorizer.hpp"
+#include "text_cleaner.hpp"
 using namespace std;
 
 int main(int argc, char** argv) {
-  Inference ifer = Inference ("丝绸之路是我国买下来的二当家，还有谁,10,150,23,CF,H2","../labels.test","../feature_dict.txt","../centers.test",10,235);
-
-/*
-modelLoader ml = modelLoader("../labels.test","../centers.test",50,235,"../feature_dict.txt");
-vector<string>input_texts;
-string input_text = "丝绸之路是我国买下来的二当家，还有谁";
-input_texts.push_back(input_text);
-Vectorizer feature = Vectorizer(input_texts);
-int topk=5;
-vector<vector<float>> matrix;
-cout<<"here"<<endl;
-cout<<ml.dictionary;
-matrix = feature.build_matrix(topk,ml.dictionary);
-cout<<matrix;
-*/
+  string speechTextData = "丝绸之路是我国买下来的二当家,还有谁,10,150,23,CF,H2";
+  speechTextData = "\n[00:01:26]这是的\n[00:02:10]虽然是头\n[00:05:40]一次\n[00:06:19]和\n[00:07:03]拍砖宽松\n[00:08:97]的\n[00:09:35]适合拍\n[00:10:23]同框";
+  textCleaner tc = textCleaner(speechTextData,"weishi");
+  Inference ifer = Inference (speechTextData);
+  int closestCluster = ifer.getLabel();
+  cout<<closestCluster<<endl;
+  vector<string> keyWords =ifer.getKeywords();
+  cout<<keyWords<<endl;
+  vector<float> similarityScore = ifer.getDistances();
+  cout<<similarityScore<<endl;
 
   return EXIT_SUCCESS;
 }

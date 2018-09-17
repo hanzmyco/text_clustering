@@ -15,11 +15,7 @@ public:
 	Vectorizer(string in_path){
 		this->text = readfile(in_path);
 		init_jieba();
-		ofstream file1("../origin_text.txt",ofstream::out);
-		ofstream file2("../tokenized_text.txt",ofstream::out);
-		file1 << this->text;
 		this->tokenized_text=tokenizer();
-		file2 << this->tokenized_text;
 	}
 	// directly pass in string data
 	Vectorizer(vector<string> text){
@@ -59,15 +55,11 @@ public:
 		return output;
 	}
 
-	vector<vector<float>> build_matrix(const size_t topk, std::map<string,int>dictionary){
+	vector<vector<float>> buildMatrix(const size_t topk, std::map<string,int>dictionary,vector<vector<string>> &keywords){
 		vector<vector<float>>matrix;
-		vector<vector<string>> keywords=this->Keyword_Extractor(topk);
+		//vector<vector<string>> keywords=this->Keyword_Extractor(topk);
 
-		//ofstream file0("../extracted_key_words.txt",ofstream::out);
-		//file0<<keywords;
-
-
-		//std::map<string, int> dictionary = this->build_dictionary(keywords);
+		keywords = this->Keyword_Extractor(topk);
 
 		for (auto it1 = begin(keywords);it1!=end(keywords);++it1)
 		{

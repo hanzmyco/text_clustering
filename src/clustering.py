@@ -5,6 +5,7 @@ import KMeans
 import Algorithm
 import BaseModel
 import read_liulanqi_data
+import read_weishi_data
 
 def main():
 
@@ -18,7 +19,9 @@ def main():
 
     #term_id = []
     id_url = []
-    read_liulanqi_data.read_data(config.path_in, data_in, id_url,50)
+    #read_liulanqi_data.read_data(config.path_in, data_in, id_url,50)
+
+    read_weishi_data.read_json(config.path_in,data_in,None,feed_id,config.data_lines)
 
 
     if config.mode =='Training':
