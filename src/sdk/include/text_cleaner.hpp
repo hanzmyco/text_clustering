@@ -9,24 +9,22 @@ public:
      int head=0;
      int tail =0;
      string output="";
-     while (head < input_text.length() && tail < input_text.length()){
-        while(input_text.at(tail)!=']'){
-          tail++;
-        }
-        if (tail < input_text.length()){
-          head=tail+1;
-          while (head < input_text.length() && input_text.at(head)!='['){
-            head++;
-          }
-          if (tail+1<input_text.length()){
-            output += input_text.substr(tail+1,head);
-          }
-          cout<<tail<<endl;
-          cout<<head<<endl;
-          tail=head+1;
-        }
+     int tag=0;
+
+     for (int i =0;i < input_text.length();i++){
+       char iter_char = input_text.at(i);
+       if ( iter_char== '['){
+         tag=1;
+       }
+       else if (iter_char==']'){
+         tag=0;
+       }
+       else if(tag==0 && iter_char!='\n' &&iter_char!='\r'){
+         output+=iter_char;
+       }
      }
      cout<<output<<endl;
    }
  }
+
 };

@@ -21,7 +21,7 @@ def main():
     id_url = []
     #read_liulanqi_data.read_data(config.path_in, data_in, id_url,50)
 
-    read_weishi_data.read_json(config.path_in,data_in,None,feed_id,config.data_lines)
+    read_weishi_data.read_json(config.path_in,data_in,None,feed_id,config.data_lines,None,config.topk)
 
 
     if config.mode =='Training':
@@ -34,6 +34,8 @@ def main():
             model = Vectorizer.FeatureHasherVector(config.model_name,config.n_features)
 
         model.feature_transform(data_in)
+        print(len(model.vectorizer.vocabulary_))
+
         model.serilize_model()
 
         if config.algo_name =='KMeans':
@@ -41,6 +43,7 @@ def main():
             print('start training model')
             algo_instance.fit(model.feature)
             algo_instance.serilize_model()
+            algo_instance.output_cluster_info(data_in,model,feed_id)
 
 
 

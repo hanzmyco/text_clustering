@@ -18,12 +18,9 @@ class Base_Algorithm(object):
         for ite in centers:
             flat_centers.extend(ite)
 
-        print(flat_centers)
 
 
         labels = self.algo.labels_.tolist()
-        print(len(centers))
-        print(len(labels))
         if config.serilization_mode == 'default':
             f = open(config.label_file_name, 'wb')
             int_array = array('I',labels)
@@ -42,16 +39,11 @@ class Base_Algorithm(object):
                     f_out1.write('\n')
 
             with open(config.center_file_name + '.txt', 'w', encoding='utf-8') as center_out:
-
-                print(len(flat_centers))
                 for ite in centers:
                     for ite1 in ite:
                         center_out.write(str(ite1))
                         center_out.write(' ')
                     center_out.write('\n')
-
-
-
 
         elif config.serilization_mode == 'protobuf':
             pb_centers = protobuf_test.centers()

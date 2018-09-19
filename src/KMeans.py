@@ -24,6 +24,8 @@ class KMeansClustering(Algorithm.Base_Algorithm):
 
 
     def output_cluster_info(self,data_in,model,feed_id):
+        self.get_centroids()
+
         index_dictionary = {}
         for index, label in enumerate(self.algo.labels_):
             if label not in index_dictionary:

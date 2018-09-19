@@ -1,3 +1,5 @@
+#!/usr/bin/python
+ # -*- coding: utf-8 -*-
 import json
 from pprint import pprint
 import sys
@@ -7,7 +9,7 @@ import jieba
 import jieba.analyse
 
 
-def read_json(path_in,data_out,stop_word_path=None,vid_out=None,set_limit=None,file_out=None):
+def read_json(path_in,data_out,stop_word_path=None,vid_out=None,set_limit=None,file_out=None,topk=None):
     p = Path(path_in)
     file_names = list(p.glob('*.txt'))
 
@@ -36,7 +38,7 @@ def read_json(path_in,data_out,stop_word_path=None,vid_out=None,set_limit=None,f
                 #segs = [str(word) for word in list(seg_list) if word not in stoplist]
                 #put_in = ' '.join(segs)
 
-                put_in = jieba.analyse.extract_tags(ite, topK=5)
+                put_in = jieba.analyse.extract_tags(ite, topK=topk)
                 put_in = ' '.join(put_in)
                 if put_in .strip()=='' or put_in .strip()==None:
                     continue

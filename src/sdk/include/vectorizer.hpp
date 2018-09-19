@@ -12,17 +12,17 @@ const char* const STOP_WORD_PATH = "../dict/stop_words.utf8";
 class Vectorizer {
 public:
 	//  can pass in both file or a single point of data
-	Vectorizer(string in_path){
-		this->text = readfile(in_path);
+	Vectorizer(string in_path,string data_source){
+		this->text = cleanText(readfile(in_path),data_source);
 		init_jieba();
 		this->tokenized_text=tokenizer();
 	}
 	// directly pass in string data
-	Vectorizer(vector<string> text){
-		this->text=text;
+	Vectorizer(vector<string> text,string data_source){
+		this->text=cleanText(text,data_source);
 		init_jieba();
 		this->tokenized_text=tokenizer();
-		}
+	}
 
 	vector<vector<string>> Keyword_Extractor(const size_t topk){
 
@@ -35,7 +35,31 @@ public:
 		}
 		return output;
 	}
-
+	vector<string> cleanText(vector<string> input_text,string data_source){
+		vector<string> output;
+		if (data_source == "weishi"){
+      for (auto iter = begin(input_text);iter != end(input_text);++iter){
+				string container="";
+				string iter_string = *iter;
+				int tag=0;
+				for (int i =0;i < iter_string.length();i++){
+	        char iter_char = iter_string.at(i);
+	        if ( iter_char== '['){
+	          tag=1;
+	        }
+	        else if (iter_char==']'){
+	          tag=0;
+	        }
+	        else if(tag==0 && iter_char!='\n' &&iter_char!='\r'){
+	          container+=iter_char;
+	        }
+	      }
+				output.push_back(container);
+			}
+    }
+		cout<<output<<endl;
+		return output;
+	}
 	vector<string> tokenizer(){
 		vector<string>output;
 		std::set<string> stopwords = load_stopwords(STOP_WORD_PATH);

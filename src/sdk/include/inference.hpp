@@ -6,7 +6,7 @@ using namespace std;
 
 class Inference{
 public:
-  Inference(string input_text){
+  Inference(string input_text,string data_source){
     this->input_texts.push_back(input_text);
     string label_path ="../model/labels.test";
     string dictionary_path="../model/feature_dict.txt";
@@ -16,7 +16,7 @@ public:
 
     this-> ml =new modelLoader(label_path,center_path,linesToRead,cols,dictionary_path);
 
-    Vectorizer feature = Vectorizer(this->input_texts);
+    Vectorizer feature = Vectorizer(this->input_texts,data_source);
     int topk=5;
 
     vector<vector <string>> multi_line_keywords;
